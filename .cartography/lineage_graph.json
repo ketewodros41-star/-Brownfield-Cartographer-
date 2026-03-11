@@ -1,0 +1,137 @@
+{
+  "directed": true,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "name": "customers",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "customers"
+    },
+    {
+      "name": "stg_payments",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "stg_payments"
+    },
+    {
+      "name": "stg_orders",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "stg_orders"
+    },
+    {
+      "name": "stg_customers",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "stg_customers"
+    },
+    {
+      "name": "orders",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "orders"
+    },
+    {
+      "name": "raw_customers",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "raw_customers"
+    },
+    {
+      "name": "raw_orders",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "raw_orders"
+    },
+    {
+      "name": "raw_payments",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "raw_payments"
+    }
+  ],
+  "edges": [
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\customers.sql",
+      "source": "stg_payments",
+      "target": "customers"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\orders.sql",
+      "source": "stg_payments",
+      "target": "orders"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\customers.sql",
+      "source": "stg_orders",
+      "target": "customers"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\orders.sql",
+      "source": "stg_orders",
+      "target": "orders"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\customers.sql",
+      "source": "stg_customers",
+      "target": "customers"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\staging\\stg_customers.sql",
+      "source": "raw_customers",
+      "target": "stg_customers"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\staging\\stg_orders.sql",
+      "source": "raw_orders",
+      "target": "stg_orders"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "models\\staging\\stg_payments.sql",
+      "source": "raw_payments",
+      "target": "stg_payments"
+    }
+  ]
+}

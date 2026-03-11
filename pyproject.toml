@@ -1,0 +1,24 @@
+[project]
+name = "brownfield-cartographer"
+version = "0.1.0"
+description = "A multi-agent codebase intelligence system."
+authors = [{ name = "FDE", email = "fde@example.com" }]
+dependencies = [
+    "tree-sitter",
+    "tree-sitter-python",
+    "tree-sitter-sql",
+    "tree-sitter-yaml",
+    "networkx",
+    "pydantic",
+    "sqlglot",
+    "langgraph",
+    "pandas",
+    "pyyaml",
+    "gitpython",
+    "scikit-learn",
+    "numpy",
+    "openai"
+]
+
+[project.scripts]
+cartographer = "src.cli:main"
