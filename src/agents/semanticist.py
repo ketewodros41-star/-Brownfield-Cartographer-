@@ -189,8 +189,19 @@ class Semanticist:
 
         system = (
             "Answer the Five FDE Day-One Questions using the provided evidence. "
-            "Cite each claim with file path and line range. "
-            "Include analysis method tag (static|llm)."
+            "Return STRICT JSON with this schema:\n"
+            "{\n"
+            "  \"questions\": [\n"
+            "    {\"id\": 1, \"question\": \"...\", \"answer\": \"...\"},\n"
+            "    {\"id\": 2, \"question\": \"...\", \"answer\": \"...\"},\n"
+            "    {\"id\": 3, \"question\": \"...\", \"answer\": \"...\"},\n"
+            "    {\"id\": 4, \"question\": \"...\", \"answer\": \"...\"},\n"
+            "    {\"id\": 5, \"question\": \"...\", \"answer\": \"...\"}\n"
+            "  ]\n"
+            "}\n"
+            "Each answer MUST include concrete citations in the form: "
+            "\"(evidence: path:line_start-line_end, method: static|llm)\". "
+            "If no evidence exists, explicitly say \"(evidence: none)\"."
         )
         try:
             response = self._chat(
@@ -201,9 +212,21 @@ class Semanticist:
                 ],
             )
             content = response.choices[0].message.content
-            return self._ensure_citations(content, context)
+            parsed = self._safe_json(content)
+            if isinstance(parsed, dict) and parsed.get("questions"):
+                for item in parsed.get("questions", []):
+                    ans = (item.get("answer") or "").strip()
+                    if "(evidence:" not in ans:
+                        if ans:
+                            ans = ans + " (evidence: none)"
+                        else:
+                            ans = "(evidence: none)"
+                        item["answer"] = ans
+                return json.dumps(parsed, indent=2)
+            # Fallback: wrap non-JSON content
+            return json.dumps(self._wrap_day_one_as_json(content), indent=2)
         except Exception as e:
-            return f"Error answering questions: {e}"
+            return json.dumps(self._wrap_day_one_as_json(f"Error answering questions: {e}"), indent=2)
 
     def _get_embeddings(self, texts: List[str]) -> Optional[np.ndarray]:
         if not self.embed_client:
@@ -304,24 +327,37 @@ class Semanticist:
         tech_debt = context.get("tech_debt", [])
         high_velocity = context.get("high_velocity", [])
 
-        lines = []
-        lines.append("Q1: What does this system do at a high level?")
-        lines.append(f"{overview}")
-        lines.append("")
-        lines.append("Q2: What are the most critical modules?")
-        lines.extend(critical or ["None identified."])
-        lines.append("")
-        lines.append("Q3: What are the primary data sources and sinks?")
-        lines.append("Sources:")
-        lines.extend(sources or ["None identified."])
-        lines.append("Sinks:")
-        lines.extend(sinks or ["None identified."])
-        lines.append("")
-        lines.append("Q4: Where is the technical debt or risk?")
-        lines.extend(tech_debt or ["None identified."])
-        lines.append("")
-        lines.append("Q5: What changes frequently and should be watched closely?")
-        lines.extend(high_velocity or ["None identified."])
+        def _ensure_evidence(text: str) -> str:
+            return text if "(evidence:" in text else f"{text} (evidence: none)"
 
-        content = "\n".join(lines)
-        return self._ensure_citations(content, context)
+        q1 = _ensure_evidence(overview)
+        q2_lines = critical or ["None identified. (evidence: none)"]
+        q3_lines = ["Sources:"] + (sources or ["None identified. (evidence: none)"]) + ["Sinks:"] + (sinks or ["None identified. (evidence: none)"])
+        q4_lines = tech_debt or ["None identified. (evidence: none)"]
+        q5_lines = high_velocity or ["None identified. (evidence: none)"]
+
+        questions = [
+            {"id": 1, "question": "What does this system do at a high level?", "answer": q1},
+            {"id": 2, "question": "What are the most critical modules?", "answer": "\n".join(q2_lines)},
+            {"id": 3, "question": "What are the primary data sources and sinks?", "answer": "\n".join(q3_lines)},
+            {"id": 4, "question": "Where is the technical debt or risk?", "answer": "\n".join(q4_lines)},
+            {"id": 5, "question": "What changes frequently and should be watched closely?", "answer": "\n".join(q5_lines)},
+        ]
+        return json.dumps({"questions": questions}, indent=2)
+
+    def _wrap_day_one_as_json(self, content: str) -> Dict[str, Any]:
+        # Minimal wrapper to keep downstream parsing stable
+        default_questions = [
+            "What does this system do at a high level?",
+            "What are the most critical modules?",
+            "What are the primary data sources and sinks?",
+            "Where is the technical debt or risk?",
+            "What changes frequently and should be watched closely?",
+        ]
+        # Try to split by Q markers or blank lines
+        parts = [p.strip() for p in content.split("\n\n") if p.strip()]
+        questions = []
+        for i, q in enumerate(default_questions, start=1):
+            answer = parts[i - 1] if i - 1 < len(parts) else content
+            questions.append({"id": i, "question": q, "answer": answer})
+        return {"questions": questions}

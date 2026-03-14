@@ -13,16 +13,26 @@ class PythonDataFlowAnalyzer:
             "read_csv",
             "read_parquet",
             "read_sql",
+            "read_sql_query",
+            "read_sql_table",
             "read_table",
+            "read_json",
+            "read_excel",
+            "read_feather",
+            "read_pickle",
         }
         self.write_functions = {
             "to_csv",
             "to_parquet",
             "to_sql",
             "to_table",
+            "to_json",
+            "to_excel",
+            "to_feather",
+            "to_pickle",
         }
         self.spark_read_calls = {"csv", "parquet", "table", "json", "orc", "text", "format", "load"}
-        self.spark_write_calls = {"csv", "parquet", "table", "json", "orc", "text", "save", "saveAsTable"}
+        self.spark_write_calls = {"csv", "parquet", "table", "json", "orc", "text", "save", "saveAsTable", "insertInto"}
 
     def analyze_file(self, file_path: str) -> Dict[str, Any]:
         if not file_path.endswith(".py"):

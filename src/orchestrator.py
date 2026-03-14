@@ -5,6 +5,7 @@ from src.agents.hydrologist import Hydrologist
 from src.agents.semanticist import Semanticist
 from src.agents.archivist import Archivist
 from src.graph.knowledge_graph import KnowledgeGraph
+from src.graph.lineage_graph import DataLineageGraph
 
 class Orchestrator:
     def __init__(self, repo_path: str, output_dir: str = ".cartography"):
@@ -65,11 +66,11 @@ class Orchestrator:
         print("Running Hydrologist...")
         lineage_graph_path = os.path.join(self.output_dir, "lineage_graph.json")
         if incremental and os.path.exists(lineage_graph_path) and changed_files:
-            lineage_kg = KnowledgeGraph.load(lineage_graph_path)
+            lineage_kg = DataLineageGraph.load(lineage_graph_path)
             lineage_kg.remove_nodes_by_source_files(changed_files)
             lineage_kg.remove_edges_by_source_files(changed_files)
         else:
-            lineage_kg = KnowledgeGraph()
+            lineage_kg = DataLineageGraph()
 
         new_lineage_kg = self.hydrologist.analyze(file_filter=changed_files if incremental else None)
         lineage_kg.merge(new_lineage_kg)
@@ -252,10 +253,16 @@ class Orchestrator:
         return f"{dataset}:1-1, method: static"
 
     def _find_sources(self, lineage_kg: KnowledgeGraph) -> List[str]:
-        return [n for n in lineage_kg.graph.nodes if lineage_kg.graph.in_degree(n) == 0]
+        return [
+            n for n, d in lineage_kg.graph.nodes(data=True)
+            if d.get("node_type") == "Dataset" and lineage_kg.graph.in_degree(n) == 0
+        ]
 
     def _find_sinks(self, lineage_kg: KnowledgeGraph) -> List[str]:
-        return [n for n in lineage_kg.graph.nodes if lineage_kg.graph.out_degree(n) == 0]
+        return [
+            n for n, d in lineage_kg.graph.nodes(data=True)
+            if d.get("node_type") == "Dataset" and lineage_kg.graph.out_degree(n) == 0
+        ]
 
     def get_navigator(self):
         # Load graphs if they exist

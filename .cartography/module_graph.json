@@ -10,19 +10,20 @@
         1,
         14
       ],
-      "purpose_statement": "This module configures pre-commit hooks for code quality assurance and formatting. It automatically validates YAML files, fixes whitespace issues, ensures proper file endings, and sorts requirements files. Additionally, it integrates Ruff for Python code linting and formatting with automatic fix capabilities.",
+      "purpose_statement": "This module configures pre-commit hooks for code quality enforcement and formatting. It validates YAML files, fixes common text file issues like trailing whitespace and missing end-of-file newlines, ensures proper requirements.txt formatting, and applies Python code linting and formatting using Ruff. The purpose is to automate code quality checks and maintain consistent code style before commits are made.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:03.863252",
+      "last_modified": "2026-03-14T12:37:29.183628",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": ".pre-commit-config.yaml"
     },
     {
@@ -32,19 +33,20 @@
         1,
         38
       ],
-      "purpose_statement": "This module is a dbt project configuration for a jaffle shop analytics system that defines the project structure, database connection settings, and model materialization strategies. It organizes data transformation workflows by separating staging views from final mart tables, and includes seed data loading capabilities with conditional enablement. The configuration specifies file paths for different dbt components and sets timezone variables for date operations.",
+      "purpose_statement": "This dbt project configuration defines a data transformation pipeline for a jaffle shop business, organizing data models into staging views and mart tables. The configuration specifies file paths, project metadata, and deployment settings needed to build and deploy the analytics models. It also includes conditional seeding of raw data based on configuration variables and sets timezone preferences for date operations.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:03.952970",
+      "last_modified": "2026-03-14T12:37:29.259867",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "dbt_project.yml"
     },
     {
@@ -54,19 +56,20 @@
         1,
         8
       ],
-      "purpose_statement": "This module defines a set of external dependencies for a dbt project, including core utilities, date handling functions, and audit helper tools. It establishes the foundational components needed for data transformation, temporal logic, and data quality auditing within the dbt ecosystem. The configuration ensures consistent versions of these packages are used across the project for reliable and reproducible data workflows.",
+      "purpose_statement": "This module is a dbt project configuration file that manages dependencies for data transformation utilities, date handling, and audit functionality. It pulls in pre-built packages from dbt-labs for common utility functions and audit capabilities, along with a specialized date package from godatadriven. The configuration enables standardized data modeling practices by leveraging established dbt community packages rather than custom implementations.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.041585",
+      "last_modified": "2026-03-14T12:37:29.335328",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "package-lock.yml"
     },
     {
@@ -76,19 +79,20 @@
         1,
         7
       ],
-      "purpose_statement": "This module defines a set of external dependencies for a dbt (data build tool) project, including utility functions, date dimension helpers, and audit tools. It imports pre-built packages from dbt-labs and godatadriven to extend core dbt functionality with additional macros, models, and testing capabilities. The configuration enables enhanced data transformation workflows by leveraging community-developed extensions for common data engineering tasks.",
+      "purpose_statement": "This module defines a set of dbt package dependencies for data transformation and analytics workflows. It includes utility functions for common dbt operations, date-related transformations, and audit helper tools for tracking changes in dimensional models. The configuration specifies exact versions for stability and references a git repository for the latest audit functionality.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.128955",
+      "last_modified": "2026-03-14T12:37:29.411046",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "packages.yml"
     },
     {
@@ -98,19 +102,20 @@
         1,
         40
       ],
-      "purpose_statement": "This module automates the setup and loading of synthetic e-commerce data for analytics purposes. It creates a Python virtual environment, installs required dependencies including dbt for data transformation, generates sample retail data using jafgen, and loads that data into a BigQuery database. The workflow is designed to bootstrap a complete data analytics environment with realistic test data for demonstration or development use cases.",
+      "purpose_statement": "This module is a data engineering workflow that generates synthetic e-commerce data and loads it into BigQuery for analytics purposes. It automates the process of creating sample datasets spanning multiple years, then transforms and seeds this data into a cloud data warehouse for business intelligence and reporting use cases. The workflow handles environment setup, data generation, and database loading through a series of orchestrated tasks.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.222509",
+      "last_modified": "2026-03-14T12:37:29.487825",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "Taskfile.yml"
     },
     {
@@ -120,19 +125,20 @@
         1,
         79
       ],
-      "purpose_statement": "This module automates the deployment of dbt models to production environments across multiple data warehouses (Snowflake, BigQuery, and Postgres) using GitHub Actions. It triggers dbt Cloud jobs when changes are pushed to the main branch, ensuring that updated models are built and deployed consistently. The workflow handles environment setup, dependency installation, and job execution for each supported database platform.",
+      "purpose_statement": "This module automates the deployment of dbt jobs to production environments across multiple data warehouses (Snowflake, BigQuery, and Postgres) using GitHub Actions. It triggers dbt Cloud jobs when changes are pushed to the main branch, ensuring that data transformations and analytics workflows are updated in sync with code changes. The workflow authenticates with dbt Cloud using API keys and executes predefined jobs for each supported database platform.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.318120",
+      "last_modified": "2026-03-14T12:37:29.573328",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": ".github\\workflows\\cd_prod.yml"
     },
     {
@@ -142,19 +148,20 @@
         1,
         79
       ],
-      "purpose_statement": "This GitHub Actions workflow automatically deploys dbt models to staging environments across multiple data warehouses (Snowflake, BigQuery, and Postgres) when changes are pushed to the `staging` branch. It triggers separate dbt Cloud jobs for each warehouse using API calls authenticated via a shared secret key. The workflow ensures consistent deployment of analytics transformations in development environments prior to production release.",
+      "purpose_statement": "This module automates the deployment of dbt models to staging environments across multiple data warehouses (Snowflake, BigQuery, and Postgres) whenever changes are pushed to the `staging` branch. It triggers separate jobs for each warehouse, using dbt Cloud's API to run predefined jobs configured for each environment. The workflow ensures consistent and automated testing of dbt models in a staging environment before promoting changes to production.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.410765",
+      "last_modified": "2026-03-14T12:37:29.651957",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": ".github\\workflows\\cd_staging.yml"
     },
     {
@@ -164,20 +171,136 @@
         1,
         81
       ],
-      "purpose_statement": "This module automates continuous integration for dbt Cloud by triggering separate CI jobs for Snowflake, BigQuery, and Postgres when pull requests are opened against the main or staging branches. It sets up the necessary environment variables and dependencies to run dbt jobs in each respective data warehouse environment using a shared Python script.",
+      "purpose_statement": "This module automates continuous integration for dbt Cloud by triggering separate jobs for Snowflake, BigQuery, and Postgres environments when pull requests are opened against the main or staging branches. It sets up the necessary environment variables and runs a Python script to execute the dbt Cloud jobs with branch-specific schema overrides. The purpose is to validate database changes across multiple platforms before merging code into production.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.504773",
+      "last_modified": "2026-03-14T12:37:29.729432",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": ".github\\workflows\\ci.yml"
+    },
+    {
+      "path": ".github\\workflows\\scripts\\dbt_cloud_run_job.py",
+      "language": "py",
+      "line_range": [
+        1,
+        134
+      ],
+      "purpose_statement": "This module automates the execution and monitoring of dbt jobs through the dbt Cloud API. It triggers a specified job with configurable parameters like branch and schema override, then continuously polls the job's status until completion. The module handles authentication via API keys and provides real-time feedback on job progress through console output and status links.",
+      "purpose_embedding": null,
+      "domain_cluster": null,
+      "complexity_score": null,
+      "change_velocity_30d": 0,
+      "is_dead_code_candidate": true,
+      "last_modified": "2026-03-14T12:37:29.823528",
+      "docstring_drift": {
+        "severity": "none",
+        "contradictions": [],
+        "note": "no_docstring"
+      },
+      "node_type": "Module",
+      "pagerank": 0.024390243902439032,
+      "id": ".github\\workflows\\scripts\\dbt_cloud_run_job.py"
+    },
+    {
+      "path": "fixtures\\airflow_dag.py",
+      "language": "py",
+      "line_range": [
+        1,
+        10
+      ],
+      "purpose_statement": "This module defines an Apache Airflow DAG (Directed Acyclic Graph) that orchestrates a simple ETL (Extract, Transform, Load) data processing workflow. The DAG is scheduled to run daily and executes three sequential tasks: extracting data, transforming it, and then loading it to its final destination. The workflow follows a linear dependency pattern where each step must complete successfully before the next one begins.",
+      "purpose_embedding": null,
+      "domain_cluster": null,
+      "complexity_score": null,
+      "change_velocity_30d": 0,
+      "is_dead_code_candidate": true,
+      "last_modified": "2026-03-14T12:37:29.914967",
+      "docstring_drift": {
+        "severity": "none",
+        "contradictions": [],
+        "note": "no_docstring"
+      },
+      "node_type": "Module",
+      "pagerank": 0.024390243902439032,
+      "id": "fixtures\\airflow_dag.py"
+    },
+    {
+      "path": "fixtures\\lineage_example.sql",
+      "language": "sql",
+      "line_range": [
+        1,
+        9
+      ],
+      "purpose_statement": "This module processes and transforms order data by filtering recent orders from the analytics schema. It creates a new table containing orders from 2024 onwards, joining order information with customer data to provide a comprehensive view of recent customer activity. The purpose is to generate a curated dataset of current orders for analytical reporting and business intelligence purposes.",
+      "purpose_embedding": null,
+      "domain_cluster": null,
+      "complexity_score": null,
+      "change_velocity_30d": 0,
+      "is_dead_code_candidate": true,
+      "last_modified": "2026-03-14T12:37:29.991048",
+      "docstring_drift": {
+        "severity": "none",
+        "contradictions": [],
+        "note": "no_docstring"
+      },
+      "node_type": "Module",
+      "pagerank": 0.024390243902439032,
+      "id": "fixtures\\lineage_example.sql"
+    },
+    {
+      "path": "fixtures\\pipeline.py",
+      "language": "py",
+      "line_range": [
+        1,
+        12
+      ],
+      "purpose_statement": "This module processes order data by reading it from a CSV file, converting it to Parquet format for efficient storage, and then querying it through a SQLite database engine. The results of the database query are then exported back to a CSV file. Essentially, it transforms and moves order data between different file formats and a database system.",
+      "purpose_embedding": null,
+      "domain_cluster": null,
+      "complexity_score": null,
+      "change_velocity_30d": 0,
+      "is_dead_code_candidate": true,
+      "last_modified": "2026-03-14T12:37:30.081913",
+      "docstring_drift": {
+        "severity": "none",
+        "contradictions": [],
+        "note": "no_docstring"
+      },
+      "node_type": "Module",
+      "pagerank": 0.024390243902439032,
+      "id": "fixtures\\pipeline.py"
+    },
+    {
+      "path": "fixtures\\schema.yml",
+      "language": "yml",
+      "line_range": [
+        1,
+        18
+      ],
+      "purpose_statement": "This module defines a data model configuration that combines payment and customer data from raw sources into a fact table structure. The configuration specifies dependencies between raw data tables and the resulting fact table, establishing the foundational data relationships needed for analytics and reporting. The module essentially orchestrates the data flow and structure for payment-related business intelligence.",
+      "purpose_embedding": null,
+      "domain_cluster": null,
+      "complexity_score": null,
+      "change_velocity_30d": 0,
+      "is_dead_code_candidate": true,
+      "last_modified": "2026-03-14T12:37:30.157347",
+      "docstring_drift": {
+        "severity": "none",
+        "contradictions": [],
+        "note": "no_docstring"
+      },
+      "node_type": "Module",
+      "pagerank": 0.024390243902439032,
+      "id": "fixtures\\schema.yml"
     },
     {
       "path": "macros\\cents_to_dollars.sql",
@@ -186,19 +309,20 @@
         1,
         21
       ],
-      "purpose_statement": "This module provides a standardized macro for converting cent values to dollar amounts across different database platforms. It offers a consistent interface that automatically adapts the conversion logic based on the target database system, ensuring proper numeric precision and rounding behavior regardless of whether you're using PostgreSQL, BigQuery, SQL Server Fabric, or other supported databases. The macro handles the mathematical conversion (dividing by 100) while applying appropriate data type casting and precision settings for each specific database engine.",
+      "purpose_statement": "This module provides a standardized way to convert cent values to dollar amounts across different database platforms. It defines a macro that automatically dispatches to the appropriate database-specific implementation for converting integer cent values to decimal dollar representations. The module ensures consistent monetary value formatting regardless of the underlying database system being used.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.615840",
+      "last_modified": "2026-03-14T12:37:30.235583",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "macros\\cents_to_dollars.sql"
     },
     {
@@ -208,19 +332,20 @@
         1,
         23
       ],
-      "purpose_statement": "This module defines a macro that determines database schema names for different types of database objects (seeds, models, etc.) based on the deployment environment and custom naming rules. It routes seed data to a dedicated \"raw\" schema, applies custom schema names with environment-specific prefixes in production, and uses default schemas for non-production environments. The macro ensures proper data organization and isolation across different deployment contexts while maintaining consistent naming conventions.",
+      "purpose_statement": "This module defines a macro that determines database schema names for different types of database objects (seeds, models, etc.) based on the deployment environment and custom naming rules. It routes seed data to a dedicated \"raw\" schema, uses the default target schema when no custom schema is specified, and applies environment-specific naming conventions by prepending the default schema name in production environments. The macro ensures proper schema organization and isolation across different deployment targets while maintaining consistent naming patterns.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.707122",
+      "last_modified": "2026-03-14T12:37:30.325654",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "macros\\generate_schema_name.sql"
     },
     {
@@ -230,19 +355,20 @@
         1,
         58
       ],
-      "purpose_statement": "This module creates a comprehensive customer analytics view by combining customer data with their order history and purchase behavior. It calculates key customer lifetime metrics including total orders, spending amounts, and purchase dates to determine whether each customer is new or returning. The resulting dataset provides a complete profile of customer purchasing patterns and value segmentation for business analysis and marketing purposes.",
+      "purpose_statement": "This module creates a comprehensive customer analytics dataset by combining customer information with their order history and spending patterns. It calculates key customer lifetime metrics including total orders, first and last purchase dates, and lifetime spending amounts. The module also segments customers into \"new\" or \"returning\" categories based on their purchase behavior.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.803011",
+      "last_modified": "2026-03-14T12:37:30.415904",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\customers.sql"
     },
     {
@@ -252,19 +378,20 @@
         1,
         107
       ],
-      "purpose_statement": "This module creates a customer analytics data model that tracks and measures customer lifetime value and ordering behavior. It provides a comprehensive view of each customer's purchasing history, including total orders, spending amounts, and customer type classification. The module enables business users to analyze customer performance through pre-built metrics like lifetime spend, order counts, and average order value, supporting customer segmentation and retention strategies.",
+      "purpose_statement": "This module defines a data model for analyzing customer behavior, focusing on lifetime spending, order history, and customer segmentation. It includes definitions for customer-level metrics such as total orders, first and last order dates, and tax-inclusive spending, along with derived metrics like average order value. The structure supports reporting and analysis by enabling aggregation and grouping of customer data through semantic models and saved queries.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:04.910365",
+      "last_modified": "2026-03-14T12:37:30.498997",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\customers.yml"
     },
     {
@@ -274,19 +401,20 @@
         1,
         9
       ],
-      "purpose_statement": "This module retrieves and processes location data from a staging table containing location information. It serves as a data access layer that extracts location records from the raw staging source and makes them available for further analysis or reporting. The module provides a clean, standardized view of location data that can be consumed by other parts of the system.",
+      "purpose_statement": "This module retrieves and processes location data from a staging table. It serves as a data transformation layer that prepares location information for downstream consumption, likely filtering or enriching the raw location records before they are used in reports or other business applications. The module essentially acts as an intermediary step in the location data pipeline.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.005267",
+      "last_modified": "2026-03-14T12:37:30.578899",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\locations.sql"
     },
     {
@@ -296,19 +424,20 @@
         1,
         24
       ],
-      "purpose_statement": "This module defines a semantic model for location data, establishing the business context and analytical structure for location-based information. It creates a dimensional table with location as the primary entity and includes key attributes like location name and opening date, along with calculated measures such as average tax rate. The model enables business users to analyze location performance and characteristics through standardized semantic definitions.",
+      "purpose_statement": "This module defines a semantic model for location data, serving as a dimension table that provides contextual information about business locations. It enables analysis by location through key attributes like location name, opening date, and average tax rates. The model supports time-based aggregation and filtering capabilities for location-related metrics.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.111436",
+      "last_modified": "2026-03-14T12:37:30.654781",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\locations.yml"
     },
     {
@@ -318,19 +447,20 @@
         1,
         19
       ],
-      "purpose_statement": "This module generates a time spine containing a continuous sequence of dates, spanning approximately 10 years (3650 days) starting from January 1, 2000. It creates a foundational date dimension table that can be used for time-based analysis, reporting, and joining with other datasets that require temporal context. The resulting dataset contains a single column with properly formatted date values covering this multi-year period.",
+      "purpose_statement": "This module generates a time spine table containing a continuous sequence of dates. It creates a dataset with one row per day over a 10-year period (3650 days) starting from a base date, which is typically used for time-series analysis and date-based joins in data warehouses. The final output provides a clean date dimension table with properly cast date values.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.208382",
+      "last_modified": "2026-03-14T12:37:30.730975",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\metricflow_time_spine.sql"
     },
     {
@@ -340,19 +470,20 @@
         1,
         77
       ],
-      "purpose_statement": "This module creates a comprehensive order summary dataset by combining order information with detailed item-level analytics. It calculates order costs, subtotals, and categorizes orders by food and drink items while determining if each order contains food or drink items. The final output includes all order details along with customer-specific ordering sequence information based on chronological order placement.",
+      "purpose_statement": "This module aggregates order data with detailed item-level information to create a comprehensive view of customer orders. It calculates order totals, counts of food and drink items, and determines whether each order contains food or drinks. The final output includes all order details along with customer-specific ordering sequence information.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.300677",
+      "last_modified": "2026-03-14T12:37:30.807433",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\orders.sql"
     },
     {
@@ -362,19 +493,20 @@
         1,
         183
       ],
-      "purpose_statement": "This module defines a data model and analytics framework for tracking and analyzing order data, including key metrics like order totals, customer ordering behavior, and item categorization (food vs. drink). It supports reporting on order volume, revenue, and customer acquisition by exposing structured datasets and precomputed metrics. The module also enables filtering and aggregation capabilities for business intelligence dashboards through semantic modeling and saved queries.",
+      "purpose_statement": "This module defines a data model and analytics framework for analyzing order data, including key metrics like order totals, food/drink item breakdowns, and customer ordering behavior. It supports reporting on order volume, revenue, and trends by organizing data into semantic models and precomputed metrics. The structure enables downstream analytics and reporting on business performance related to customer orders.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.397585",
+      "last_modified": "2026-03-14T12:37:30.888549",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\orders.yml"
     },
     {
@@ -384,19 +516,20 @@
         1,
         66
       ],
-      "purpose_statement": "This module creates a comprehensive view of order data by joining together order items, orders, products, and supply cost information. It aggregates supply costs by product and combines all relevant order details with product information and supply chain costs. The result provides a complete dataset for analyzing order performance, pricing, and profitability at the individual order item level.",
+      "purpose_statement": "This module creates a comprehensive view of order data by joining together order items, orders, products, and supply cost information. It aggregates supply costs by product and combines all relevant order details with product information and supply chain costs. The result provides a complete dataset for analyzing order profitability and product performance.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.491502",
+      "last_modified": "2026-03-14T12:37:30.965168",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\order_items.sql"
     },
     {
@@ -406,19 +539,20 @@
         1,
         181
       ],
-      "purpose_statement": "This module defines a data model for analyzing order items, including their associated costs, revenues, and categorization as food or drink items. It enables detailed financial and operational reporting through semantic models, metrics (such as revenue, cost, and profit), and saved queries that aggregate and analyze order data over time. The unit test ensures accurate aggregation of supply costs at the order level.",
+      "purpose_statement": "This module defines a data model for order items, including their relationships to orders and products, along with associated costs and revenue calculations. It includes unit tests to validate supply cost aggregation and semantic models that enable detailed analysis of order item performance by category (food/drink) and time. The module also specifies various metrics for tracking financial performance, such as revenue breakdowns, gross profit, and cumulative totals, supporting both simple and complex analytical queries.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.627114",
+      "last_modified": "2026-03-14T12:37:31.048146",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\order_items.yml"
     },
     {
@@ -428,19 +562,20 @@
         1,
         9
       ],
-      "purpose_statement": "This module retrieves and processes product data from a staging table containing product information. It serves as a data transformation layer that prepares product data for downstream usage, likely in reporting or analysis workflows. The module acts as an intermediary step to ensure consistent and clean product data is available for business intelligence purposes.",
+      "purpose_statement": "This module retrieves and presents product data from a staging table containing product information. It serves as a data access layer that provides a complete view of all available products in the system. The module is designed to support downstream reporting and analysis by making product data easily queryable.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.716350",
+      "last_modified": "2026-03-14T12:37:31.126136",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\products.sql"
     },
     {
@@ -450,19 +585,20 @@
         1,
         26
       ],
-      "purpose_statement": "This module defines a semantic model named \"products\" that represents a product dimension table. The model provides a structured view of product data with one row per product, including various product attributes like name, type, description, and pricing information. It serves as a dimensional reference table that can be used to add contextual information to metrics and support analytical queries about products.",
+      "purpose_statement": "This module defines a semantic model for product data, establishing the structural foundation for how product-related information will be organized and accessed. The model creates a standardized representation of product dimensions and attributes that can be used consistently across different analytical queries and reporting needs. It serves as a central reference point for product master data, enabling unified access to product characteristics like type, description, pricing, and classification flags.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.817393",
+      "last_modified": "2026-03-14T12:37:31.202763",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\products.yml"
     },
     {
@@ -472,19 +608,20 @@
         1,
         9
       ],
-      "purpose_statement": "This module retrieves and processes supply chain data from a staging table containing supply information. It appears to be part of a larger data pipeline that transforms raw supply data into a format suitable for analysis or reporting. The module serves as an intermediate step in preparing supply chain metrics and inventory data for business intelligence purposes.",
+      "purpose_statement": "This module transforms and stages supply chain data by selecting all records from a supplies staging table. It serves as a foundational layer in the data pipeline that prepares raw supply information for further analysis and reporting. The module essentially acts as a pass-through transformation that makes supply chain data available for downstream consumption.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:05.909943",
+      "last_modified": "2026-03-14T12:37:31.277437",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\supplies.sql"
     },
     {
@@ -494,19 +631,20 @@
         1,
         24
       ],
-      "purpose_statement": "This module defines a semantic model for supply chain data, specifically modeling the relationship between supplies and products. It provides a structured representation of supply information including supply identifiers, product associations, cost data, and perishability status. The model enables business users to analyze supply-related metrics and dimensions for reporting and analytical purposes.",
+      "purpose_statement": "This module defines a semantic model for supplies data, representing a dimension table with detailed supply and product information. It provides structured metadata about supplies including identifiers, costs, and perishability status to support analytical querying and reporting. The model enables users to analyze supply-related metrics by various categorical dimensions such as supply type, product association, and cost factors.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.005140",
+      "last_modified": "2026-03-14T12:37:31.352170",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\marts\\supplies.yml"
     },
     {
@@ -516,19 +654,20 @@
         1,
         23
       ],
-      "purpose_statement": "This module transforms raw customer data by extracting and renaming key fields from the e-commerce customers table. It specifically pulls customer IDs and names, standardizing them into a clean format with explicit column naming conventions. The transformed data is then made available for downstream consumption through a final selection of all renamed fields.",
+      "purpose_statement": "This module transforms raw customer data from an e-commerce source by renaming and selecting specific fields. It extracts customer records and maps the original 'id' field to 'customer_id' and the 'name' field to 'customer_name'. The purpose is to standardize customer data format and column naming conventions for downstream use.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.108334",
+      "last_modified": "2026-03-14T12:37:31.426016",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_customers.sql"
     },
     {
@@ -538,19 +677,20 @@
         1,
         9
       ],
-      "purpose_statement": "This module defines a staging model for customer data that applies basic cleansing and transformation rules to create a standardized dataset with one record per customer. The model ensures data quality by enforcing that each customer has a unique identifier and that no customer records contain null values in the key field. This serves as a foundational layer for downstream customer analytics and reporting applications.",
+      "purpose_statement": "This module defines a staging model for customer data that includes basic data cleaning and transformation rules. The model ensures each customer record has a unique identifier and maintains data quality through validation tests for non-null and unique constraints on the customer ID field.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.198279",
+      "last_modified": "2026-03-14T12:37:31.500856",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_customers.yml"
     },
     {
@@ -560,19 +700,20 @@
         1,
         29
       ],
-      "purpose_statement": "This module transforms raw store data from an e-commerce source by renaming and reformatting key fields. It extracts location information including identifiers, names, tax rates, and opening dates, while standardizing the date format to daily granularity. The resulting dataset provides a clean, structured view of store locations for downstream analysis and reporting.",
+      "purpose_statement": "This module transforms raw store data from an e-commerce system by renaming and formatting key fields. It extracts store identifiers, names, tax rates, and opening dates while standardizing the date format to daily granularity. The purpose is to create a cleaned and structured view of store location information for downstream reporting and analysis.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.292912",
+      "last_modified": "2026-03-14T12:37:31.577759",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_locations.sql"
     },
     {
@@ -582,19 +723,20 @@
         1,
         43
       ],
-      "purpose_statement": "This module transforms raw store location data by cleaning and standardizing the information into a structured format. It processes timestamp fields by truncating them to dates and ensures each location has a unique identifier. The resulting dataset provides a consistent view of open locations with basic business attributes like location name, tax rate, and opening date.",
+      "purpose_statement": "This module processes and cleans raw store location data, transforming it into a standardized format with one row per location. It extracts and truncates timestamp information to dates, and applies basic data cleaning operations like renaming columns and filtering for open locations. The resulting dataset serves as a reliable source of location information for downstream analytics and reporting.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.388585",
+      "last_modified": "2026-03-14T12:37:31.651111",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_locations.yml"
     },
     {
@@ -604,19 +746,20 @@
         1,
         33
       ],
-      "purpose_statement": "This module transforms raw e-commerce order data by renaming columns and converting currency amounts from cents to dollars. It extracts order information including IDs, financial amounts, and timestamps while maintaining data consistency through standardized column naming conventions. The transformed data provides a clean, standardized view of order transactions for downstream analysis and reporting.",
+      "purpose_statement": "This module transforms raw order data from an e-commerce system by renaming columns, converting currency amounts from cents to dollars, and standardizing timestamp formats. It processes order records to create a cleaned and formatted dataset that includes order identifiers, financial amounts, and date information. The transformed data provides a consistent format for order analysis and reporting purposes.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.484704",
+      "last_modified": "2026-03-14T12:37:31.729921",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_orders.sql"
     },
     {
@@ -626,19 +769,20 @@
         1,
         12
       ],
-      "purpose_statement": "This module defines a staging model for order data that includes basic data validation and transformation rules. The model ensures data quality by validating that the order total minus tax paid equals the subtotal, while also enforcing uniqueness and non-null constraints on the order ID. This serves as a cleaned, standardized representation of order records for downstream processing.",
+      "purpose_statement": "This module defines a staging model for order data that includes basic data validation and transformation rules. The model ensures data quality by validating that the order total equals the sum of subtotal and tax paid, while also enforcing uniqueness and non-null constraints on order identifiers. This serves as a cleaned, standardized representation of order records for downstream analytics and reporting purposes.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.588975",
+      "last_modified": "2026-03-14T12:37:31.803159",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_orders.yml"
     },
     {
@@ -648,19 +792,20 @@
         1,
         22
       ],
-      "purpose_statement": "This module transforms raw e-commerce item data by renaming and reorganizing key identifiers. It extracts order item records from the e-commerce source system and standardizes the column names for better data consistency. The output provides a clean mapping of order items with their corresponding order and product identifiers.",
+      "purpose_statement": "This module transforms raw e-commerce item data by renaming and selecting specific fields. It extracts order item identifiers, order IDs, and product SKUs from the source table to create a standardized dataset for downstream processing.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.684394",
+      "last_modified": "2026-03-14T12:37:31.878626",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_order_items.sql"
     },
     {
@@ -670,19 +815,20 @@
         1,
         16
       ],
-      "purpose_statement": "This module defines a staging model for order items that represents individual food and drink items within customer orders. It establishes a normalized structure where each row corresponds to a single item from an order, with references back to the parent order through a foreign key relationship. The model ensures data integrity by requiring non-null values for both the unique item identifier and the associated order ID, while maintaining referential integrity with the orders table.",
+      "purpose_statement": "This module defines a staging table for order items that represents individual food and drink items within customer orders. It establishes the relationship between specific order items and their corresponding orders through foreign key references. The model ensures data integrity by requiring unique identifiers for each order item and maintaining referential integrity with the orders table.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.778133",
+      "last_modified": "2026-03-14T12:37:31.953621",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_order_items.yml"
     },
     {
@@ -692,19 +838,20 @@
         1,
         34
       ],
-      "purpose_statement": "This module transforms raw product data from an e-commerce system by renaming and reformatting fields to create a standardized product dataset. It converts pricing from cents to dollars, categorizes products as food or drink items based on their type, and structures the data with clear column names for downstream use. The result is a cleaned and enriched product catalog ready for analysis or integration with other systems.",
+      "purpose_statement": "This module transforms raw product data from an e-commerce source by renaming and reformatting fields to create a standardized product catalog. It converts price values from cents to dollars and adds boolean flags to categorize products as food or beverage items based on their type. The output provides cleaned and structured product information including IDs, names, descriptions, prices, and category classifications.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.869577",
+      "last_modified": "2026-03-14T12:37:32.028617",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_products.sql"
     },
     {
@@ -714,19 +861,20 @@
         1,
         9
       ],
-      "purpose_statement": "This module defines a staging model for product data that represents food and drink items available for ordering. The model includes basic data cleaning and transformation rules to ensure data quality, with each row representing a unique product identified by a product ID. The implementation enforces data integrity through null and uniqueness constraints on the product ID field.",
+      "purpose_statement": "This module defines a data model for staging product information, specifically food and drink items that can be ordered. The model includes a unique identifier for each product and applies basic data quality tests to ensure the product ID is both present and unique across all records.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:06.960024",
+      "last_modified": "2026-03-14T12:37:32.103717",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_products.yml"
     },
     {
@@ -736,19 +884,20 @@
         1,
         31
       ],
-      "purpose_statement": "This module transforms raw supply data from an e-commerce system into a standardized format with properly typed and renamed columns. It generates a unique supply identifier, converts cost values from cents to dollars, and preserves key supply characteristics like name and perishability status. The transformed data provides a clean, consistent view of supply inventory information for downstream analysis and reporting.",
+      "purpose_statement": "This module transforms raw supply data from an e-commerce system into a standardized format with properly renamed columns and calculated fields. It generates a unique supply identifier, converts cost values from cents to dollars, and maintains key supply information including perishability status. The output provides a clean, consistent view of supply inventory data for downstream analytics and reporting purposes.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:07.053036",
+      "last_modified": "2026-03-14T12:37:32.180470",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_supplies.sql"
     },
     {
@@ -758,19 +907,20 @@
         1,
         12
       ],
-      "purpose_statement": "This module manages supply expense data by creating a structured representation of supply costs with proper identification and validation. It tracks individual supply expenses through unique identifiers and ensures data quality by validating that each supply cost record has a non-null, unique key. The model handles the complexity of fluctuating supply costs by maintaining separate records for each cost change while preserving the relationship to the original supply item.",
+      "purpose_statement": "This module manages supply expense data by creating a structured representation of supply costs with unique identifiers for each cost entry. It tracks individual supply expenses where each row represents a specific cost instance for a supply, allowing for historical cost tracking when prices change. The model ensures data quality through unique identification and non-null constraints on the primary key.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:07.143799",
+      "last_modified": "2026-03-14T12:37:32.256427",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\stg_supplies.yml"
     },
     {
@@ -780,19 +930,20 @@
         1,
         20
       ],
-      "purpose_statement": "This module defines the raw data schema for an e-commerce system, specifically organizing customer, order, item, store, product, and supply data into separate logical tables. The structure supports tracking complete purchase histories with detailed information about customers, their orders, individual items within each order, store locations, product SKUs, and associated supplies needed for those products.",
+      "purpose_statement": "This module defines the raw data sources and table structures for an e-commerce system, specifically organizing customer, order, item, store, product, and supply information. It establishes a data model that captures the complete lifecycle of e-commerce transactions from customer purchases through to product supply chains. The configuration enables data loading and processing workflows by specifying the relationships between different business entities and their corresponding data fields.",
+      "purpose_embedding": null,
       "domain_cluster": null,
       "complexity_score": null,
       "change_velocity_30d": 0,
       "is_dead_code_candidate": true,
-      "last_modified": "2026-03-13T17:09:07.240427",
+      "last_modified": "2026-03-14T12:37:32.332403",
       "docstring_drift": {
         "severity": "none",
         "contradictions": [],
         "note": "no_docstring"
       },
       "node_type": "Module",
-      "pagerank": 0.027777777777777783,
+      "pagerank": 0.024390243902439032,
       "id": "models\\staging\\__sources.yml"
     }
   ],

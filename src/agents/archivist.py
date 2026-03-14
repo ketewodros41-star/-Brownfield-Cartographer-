@@ -72,7 +72,7 @@ class Archivist:
             count = len(items)
             conf = self._section_confidence(items, confidence_hint)
             lines.append(f"## {title}")
-            lines.append(f"*{count} item(s) · confidence: **{conf}***\n")
+            lines.append(f"*{count} item(s) - confidence: **{conf}***\n")
             if items:
                 for item in items:
                     lines.append(f"- {item}")
@@ -101,11 +101,11 @@ class Archivist:
         snk_conf = self._section_confidence(sinks, "sinks")
 
         lines.append("## Data Sources & Sinks\n")
-        lines.append(f"### Sources · *{len(sources)} item(s) · confidence: **{src_conf}***\n")
+        lines.append(f"### Sources - *{len(sources)} item(s) - confidence: **{src_conf}***\n")
         for s in sources:
             lines.append(f"- {s}")
         lines.append("")
-        lines.append(f"### Sinks · *{len(sinks)} item(s) · confidence: **{snk_conf}***\n")
+        lines.append(f"### Sinks - *{len(sinks)} item(s) - confidence: **{snk_conf}***\n")
         for s in sinks:
             lines.append(f"- {s}")
         lines.append("")
@@ -137,7 +137,7 @@ class Archivist:
                 "high_velocity": len(context.get("high_velocity", [])),
                 "module_purposes": len(context.get("module_purposes", [])),
             }
-            lines.append("| Section | Previous | Current | Δ |")
+            lines.append("| Section | Previous | Current | Delta |")
             lines.append("|---|---|---|---|")
             for key, cur in cur_sections.items():
                 prev = prev_sections.get(key, 0)
@@ -257,6 +257,22 @@ class Archivist:
         Handles both 'Q1: ...' and 'Q1. ...' prefixes.
         """
         import re
+        import json
+
+        # Prefer structured JSON output when available
+        try:
+            parsed = json.loads(answers)
+            if isinstance(parsed, dict) and isinstance(parsed.get("questions"), list):
+                results = []
+                for item in parsed["questions"]:
+                    q = (item.get("question") or "").strip()
+                    a = (item.get("answer") or "").strip()
+                    if q:
+                        results.append((q, a))
+                if results:
+                    return results
+        except Exception:
+            pass
 
         # Try to split on Q-number patterns
         parts = re.split(r"(?=\bQ\d[\.:]\s)", answers)
@@ -291,3 +307,4 @@ class Archivist:
                 results.append((q, a))
 
         return results
+

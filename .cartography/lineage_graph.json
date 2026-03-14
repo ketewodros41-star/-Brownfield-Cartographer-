@@ -4,6 +4,180 @@
   "graph": {},
   "nodes": [
     {
+      "name": "analytics.recent_orders",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "analytics.recent_orders"
+    },
+    {
+      "source_datasets": [
+        "analytics.orders",
+        "analytics.customers",
+        "analytics.recent_orders"
+      ],
+      "target_datasets": [
+        "analytics.recent_orders"
+      ],
+      "transformation_type": "sql",
+      "source_file": "fixtures\\lineage_example.sql",
+      "line_range": [
+        1,
+        9
+      ],
+      "sql_query_if_applicable": "-- Example SQL lineage with CTE and explicit sink\nWITH recent_orders AS (\n  SELECT o.id, o.customer_id, o.order_date\n  FROM analytics.orders o\n  JOIN analytics.customers c ON c.id = o.customer_id\n  WHERE o.order_date >= DATE '2024-01-01'\n)\nCREATE TABLE analytics.recent_orders AS\nSELECT * FROM recent_orders;\n",
+      "unresolved_references": null,
+      "node_type": "Transformation",
+      "id": "fixtures\\lineage_example.sql::sql"
+    },
+    {
+      "name": "analytics.orders",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "analytics.orders"
+    },
+    {
+      "name": "analytics.customers",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "analytics.customers"
+    },
+    {
+      "source_datasets": [
+        "data/orders.csv"
+      ],
+      "target_datasets": [
+        "data/orders_out.csv",
+        "data/orders.parquet"
+      ],
+      "transformation_type": "python",
+      "source_file": "fixtures\\pipeline.py",
+      "line_range": [
+        1,
+        12
+      ],
+      "sql_query_if_applicable": null,
+      "unresolved_references": [
+        {
+          "call": "engine.execute",
+          "line_range": [
+            10,
+            10
+          ],
+          "reason": "non_literal_or_missing_arg"
+        }
+      ],
+      "node_type": "Transformation",
+      "id": "fixtures\\pipeline.py::python"
+    },
+    {
+      "name": "data/orders.csv",
+      "storage_type": "file",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "data/orders.csv"
+    },
+    {
+      "name": "data/orders_out.csv",
+      "storage_type": "file",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "data/orders_out.csv"
+    },
+    {
+      "name": "data/orders.parquet",
+      "storage_type": "file",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "data/orders.parquet"
+    },
+    {
+      "name": "fct_payments",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "fct_payments"
+    },
+    {
+      "name": "raw.payments",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "raw.payments"
+    },
+    {
+      "name": "raw.customers",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "raw.customers"
+    },
+    {
+      "source_datasets": [
+        "raw.payments"
+      ],
+      "target_datasets": [
+        "fct_payments"
+      ],
+      "transformation_type": "yaml",
+      "source_file": "fixtures\\schema.yml",
+      "line_range": [
+        1,
+        1
+      ],
+      "sql_query_if_applicable": null,
+      "unresolved_references": null,
+      "node_type": "Transformation",
+      "id": "fixtures\\schema.yml::yaml::raw.payments>>fct_payments"
+    },
+    {
+      "source_datasets": [
+        "raw.customers"
+      ],
+      "target_datasets": [
+        "fct_payments"
+      ],
+      "transformation_type": "yaml",
+      "source_file": "fixtures\\schema.yml",
+      "line_range": [
+        1,
+        1
+      ],
+      "sql_query_if_applicable": null,
+      "unresolved_references": null,
+      "node_type": "Transformation",
+      "id": "fixtures\\schema.yml::yaml::raw.customers>>fct_payments"
+    },
+    {
       "name": "cents_to_dollars",
       "storage_type": "table",
       "schema_snapshot": null,
@@ -209,9 +383,9 @@
     },
     {
       "source_datasets": [
-        "stg_orders",
-        "stg_supplies",
         "stg_order_items",
+        "stg_supplies",
+        "stg_orders",
         "stg_products"
       ],
       "target_datasets": [
@@ -229,16 +403,6 @@
       "id": "models\\marts\\order_items.sql::sql"
     },
     {
-      "name": "stg_supplies",
-      "storage_type": "table",
-      "schema_snapshot": null,
-      "freshness_sla": null,
-      "owner": null,
-      "is_source_of_truth": false,
-      "node_type": "Dataset",
-      "id": "stg_supplies"
-    },
-    {
       "name": "stg_order_items",
       "storage_type": "table",
       "schema_snapshot": null,
@@ -247,6 +411,16 @@
       "is_source_of_truth": false,
       "node_type": "Dataset",
       "id": "stg_order_items"
+    },
+    {
+      "name": "stg_supplies",
+      "storage_type": "table",
+      "schema_snapshot": null,
+      "freshness_sla": null,
+      "owner": null,
+      "is_source_of_truth": false,
+      "node_type": "Dataset",
+      "id": "stg_supplies"
     },
     {
       "name": "stg_products",
@@ -485,6 +659,131 @@
   ],
   "edges": [
     {
+      "type": "CONSUMES",
+      "source_file": "fixtures\\lineage_example.sql",
+      "transformation_type": "sql",
+      "line_range": [
+        1,
+        9
+      ],
+      "dialect_used": "postgres",
+      "source": "analytics.recent_orders",
+      "target": "fixtures\\lineage_example.sql::sql"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "fixtures\\lineage_example.sql",
+      "transformation_type": "sql",
+      "line_range": [
+        1,
+        9
+      ],
+      "dialect_used": "postgres",
+      "source": "fixtures\\lineage_example.sql::sql",
+      "target": "analytics.recent_orders"
+    },
+    {
+      "type": "CONSUMES",
+      "source_file": "fixtures\\lineage_example.sql",
+      "transformation_type": "sql",
+      "line_range": [
+        1,
+        9
+      ],
+      "dialect_used": "postgres",
+      "source": "analytics.orders",
+      "target": "fixtures\\lineage_example.sql::sql"
+    },
+    {
+      "type": "CONSUMES",
+      "source_file": "fixtures\\lineage_example.sql",
+      "transformation_type": "sql",
+      "line_range": [
+        1,
+        9
+      ],
+      "dialect_used": "postgres",
+      "source": "analytics.customers",
+      "target": "fixtures\\lineage_example.sql::sql"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "fixtures\\pipeline.py",
+      "transformation_type": "python",
+      "line_range": [
+        12,
+        12
+      ],
+      "source": "fixtures\\pipeline.py::python",
+      "target": "data/orders_out.csv"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "fixtures\\pipeline.py",
+      "transformation_type": "python",
+      "line_range": [
+        7,
+        7
+      ],
+      "source": "fixtures\\pipeline.py::python",
+      "target": "data/orders.parquet"
+    },
+    {
+      "type": "CONSUMES",
+      "source_file": "fixtures\\pipeline.py",
+      "transformation_type": "python",
+      "line_range": [
+        6,
+        6
+      ],
+      "source": "data/orders.csv",
+      "target": "fixtures\\pipeline.py::python"
+    },
+    {
+      "type": "CONSUMES",
+      "source_file": "fixtures\\schema.yml",
+      "transformation_type": "yaml",
+      "line_range": [
+        1,
+        1
+      ],
+      "source": "raw.payments",
+      "target": "fixtures\\schema.yml::yaml::raw.payments>>fct_payments"
+    },
+    {
+      "type": "CONSUMES",
+      "source_file": "fixtures\\schema.yml",
+      "transformation_type": "yaml",
+      "line_range": [
+        1,
+        1
+      ],
+      "source": "raw.customers",
+      "target": "fixtures\\schema.yml::yaml::raw.customers>>fct_payments"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "fixtures\\schema.yml",
+      "transformation_type": "yaml",
+      "line_range": [
+        1,
+        1
+      ],
+      "source": "fixtures\\schema.yml::yaml::raw.payments>>fct_payments",
+      "target": "fct_payments"
+    },
+    {
+      "type": "PRODUCES",
+      "source_file": "fixtures\\schema.yml",
+      "transformation_type": "yaml",
+      "line_range": [
+        1,
+        1
+      ],
+      "source": "fixtures\\schema.yml::yaml::raw.customers>>fct_payments",
+      "target": "fct_payments"
+    },
+    {
       "type": "PRODUCES",
       "source_file": "macros\\cents_to_dollars.sql",
       "transformation_type": "sql",
@@ -649,6 +948,18 @@
         66
       ],
       "dialect_used": "dbt_regex",
+      "source": "stg_order_items",
+      "target": "models\\marts\\order_items.sql::sql"
+    },
+    {
+      "type": "CONSUMES",
+      "source_file": "models\\marts\\order_items.sql",
+      "transformation_type": "sql",
+      "line_range": [
+        1,
+        66
+      ],
+      "dialect_used": "dbt_regex",
       "source": "stg_supplies",
       "target": "models\\marts\\order_items.sql::sql"
     },
@@ -663,18 +974,6 @@
       "dialect_used": "dbt_regex",
       "source": "stg_supplies",
       "target": "models\\marts\\supplies.sql::sql"
-    },
-    {
-      "type": "CONSUMES",
-      "source_file": "models\\marts\\order_items.sql",
-      "transformation_type": "sql",
-      "line_range": [
-        1,
-        66
-      ],
-      "dialect_used": "dbt_regex",
-      "source": "stg_order_items",
-      "target": "models\\marts\\order_items.sql::sql"
     },
     {
       "type": "CONSUMES",

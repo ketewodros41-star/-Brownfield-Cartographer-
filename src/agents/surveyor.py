@@ -28,9 +28,7 @@ class Surveyor:
                                 line_count = max(1, len(f.read().splitlines()))
                         except Exception:
                             line_count = 1
-                        analysis = self.analyzer.analyze_file(file_path)
-                        if not analysis:
-                            continue
+                        analysis = self.analyzer.analyze_file(file_path) or {}
 
                         node = ModuleNode(
                             path=rel_path,

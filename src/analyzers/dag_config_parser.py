@@ -16,8 +16,17 @@ class DAGConfigParser:
             except yaml.YAMLError:
                 return {}
 
-        results = {"models": [], "relationships": []}
+        results = {"models": [], "relationships": [], "sources": []}
         if not data or "models" not in data:
+            # still allow sources-only schema files
+            if data and "sources" in data:
+                for src in data.get("sources", []):
+                    source_name = src.get("name")
+                    for tbl in src.get("tables", []):
+                        table_name = tbl.get("name")
+                        if source_name and table_name:
+                            results["sources"].append(f"{source_name}.{table_name}")
+                return results
             return results
 
         for model in data["models"]:
@@ -33,6 +42,14 @@ class DAGConfigParser:
             nodes = depends_on.get("nodes", []) if isinstance(depends_on, dict) else []
             for dep in nodes:
                 results["relationships"].append({"source": dep, "target": model.get("name")})
+
+        # Parse declared sources
+        for src in data.get("sources", []):
+            source_name = src.get("name")
+            for tbl in src.get("tables", []):
+                table_name = tbl.get("name")
+                if source_name and table_name:
+                    results["sources"].append(f"{source_name}.{table_name}")
         
         return results
 

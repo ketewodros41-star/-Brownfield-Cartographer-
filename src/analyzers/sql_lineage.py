@@ -26,7 +26,7 @@ class SQLLineageAnalyzer:
             for expression in expressions:
                 # Find all table references (sources)
                 for table in expression.find_all(exp.Table):
-                    sources.add(table.name)
+                    sources.add(self._format_table(table))
 
                 # Check for sinks (INSERT, CREATE TABLE AS, etc.)
                 if isinstance(expression, exp.Create):
@@ -50,6 +50,7 @@ class SQLLineageAnalyzer:
                     if alias:
                         ctes.append(alias)
                 sources = sources - set(ctes)
+                sinks = sinks - set(ctes)
 
         except Exception:
             return {"sources": set(), "sinks": set(), "dialect_used": "parse_error"}
@@ -98,8 +99,23 @@ class SQLLineageAnalyzer:
         if node is None:
             return ""
         if isinstance(node, exp.Table):
-            return node.name
+            return self._format_table(node)
         # Some nodes wrap a table in a schema or identifier
         if hasattr(node, "this") and isinstance(node.this, exp.Table):
-            return node.this.name
+            return self._format_table(node.this)
         return ""
+
+    def _format_table(self, table: exp.Table) -> str:
+        if table is None:
+            return ""
+        parts = []
+        catalog = getattr(table, "catalog", None)
+        db = getattr(table, "db", None)
+        name = getattr(table, "name", None)
+        if catalog:
+            parts.append(catalog)
+        if db:
+            parts.append(db)
+        if name:
+            parts.append(name)
+        return ".".join(parts) if parts else ""

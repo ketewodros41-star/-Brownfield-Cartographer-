@@ -92,13 +92,16 @@ class TreeSitterAnalyzer:
                 superclasses: (argument_list)? @bases)
         """)
 
-        decorator_query = self.router.py_language.query("""
-            (decorated_definition
-                decorator: (decorator) @decorator)
-        """)
+        # Decorators vary across grammar versions; use a broad query for compatibility.
+        try:
+            decorator_query = self.router.py_language.query("""
+                (decorator) @decorator
+            """)
+        except Exception:
+            decorator_query = None
 
         # Extract Imports
-        captures = import_query.captures(tree.root_node)
+        captures = self._query_captures(import_query, tree.root_node)
         for node, tag in captures:
             results["imports"].append(content[node.start_byte:node.end_byte].decode("utf-8"))
 
@@ -109,7 +112,7 @@ class TreeSitterAnalyzer:
                     results["resolved_imports"].append(resolved)
 
         # Extract Functions
-        captures = func_query.captures(tree.root_node)
+        captures = self._query_captures(func_query, tree.root_node)
         for i in range(0, len(captures), 2):
             node, tag = captures[i]
             if tag == "func_name":
@@ -123,7 +126,7 @@ class TreeSitterAnalyzer:
                 results["function_signatures"].append(f"{name}{params}")
 
         # Extract Classes
-        captures = class_query.captures(tree.root_node)
+        captures = self._query_captures(class_query, tree.root_node)
         current_class = None
         for node, tag in captures:
             if tag == "class_name":
@@ -133,9 +136,10 @@ class TreeSitterAnalyzer:
                 bases = content[node.start_byte:node.end_byte].decode("utf-8")
                 results["class_inheritance"].append(f"{current_class}{bases}")
 
-        captures = decorator_query.captures(tree.root_node)
-        for node, _ in captures:
-            results["decorators"].append(content[node.start_byte:node.end_byte].decode("utf-8"))
+        if decorator_query:
+            captures = self._query_captures(decorator_query, tree.root_node)
+            for node, _ in captures:
+                results["decorators"].append(content[node.start_byte:node.end_byte].decode("utf-8"))
 
     def _resolve_import(self, import_name: str) -> str:
         # Resolve dotted import to a local file path if possible
@@ -206,3 +210,13 @@ class TreeSitterAnalyzer:
         if not parts:
             return ""
         return ".".join(reversed(parts))
+
+    def _query_captures(self, query, node):
+        try:
+            if hasattr(query, "captures"):
+                return query.captures(node)
+            cursor = tree_sitter.QueryCursor(query)
+            captures = cursor.captures(node)
+            return [(n, query.capture_name(i)) for n, i in captures]
+        except Exception:
+            return []
