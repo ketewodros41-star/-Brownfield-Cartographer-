@@ -15,11 +15,14 @@ class Hydrologist:
         self.python_flow = PythonDataFlowAnalyzer()
         self.lineage_kg = KnowledgeGraph()
 
-    def analyze(self) -> KnowledgeGraph:
+    def analyze(self, file_filter: List[str] = None) -> KnowledgeGraph:
+        file_filter_set = set(file_filter or [])
         for root, _, files in os.walk(self.repo_path):
             for file in files:
                 file_path = os.path.join(root, file)
                 rel_path = os.path.relpath(file_path, self.repo_path)
+                if file_filter_set and rel_path not in file_filter_set:
+                    continue
 
                 try:
                     if file.endswith(".sql"):
@@ -36,6 +39,7 @@ class Hydrologist:
     def _analyze_sql_file(self, file_path: str, rel_path: str):
         with open(file_path, "r") as f:
             content = f.read()
+        line_count = max(1, len(content.splitlines()))
         
         # dbt specific analysis first
         lineage = self.sql_analyzer.analyze_dbt_model(content)
@@ -56,7 +60,7 @@ class Hydrologist:
             target_datasets=[model_name],
             transformation_type="sql",
             source_file=rel_path,
-            line_range=[1, 1],
+            line_range=[1, line_count],
             sql_query_if_applicable=content[:2000],
         )
         self.lineage_kg.add_node(transformation_id, transformation, "Transformation")
@@ -66,8 +70,8 @@ class Hydrologist:
             if not source: continue
             if source not in self.lineage_kg.graph:
                 self.lineage_kg.add_node(source, DatasetNode(name=source, storage_type="table"), "Dataset")
-            self.lineage_kg.add_edge(source, transformation_id, "CONSUMES", {"source_file": rel_path, "transformation_type": "sql", "line_range": [1, 1]})
-        self.lineage_kg.add_edge(transformation_id, model_name, "PRODUCES", {"source_file": rel_path, "transformation_type": "sql", "line_range": [1, 1]})
+            self.lineage_kg.add_edge(source, transformation_id, "CONSUMES", {"source_file": rel_path, "transformation_type": "sql", "line_range": [1, line_count], "dialect_used": lineage.get("dialect_used")})
+        self.lineage_kg.add_edge(transformation_id, model_name, "PRODUCES", {"source_file": rel_path, "transformation_type": "sql", "line_range": [1, line_count], "dialect_used": lineage.get("dialect_used")})
 
     def _analyze_yaml_file(self, file_path: str, rel_path: str):
         # Basic dbt schema parsing
@@ -87,11 +91,54 @@ class Hydrologist:
                 self.lineage_kg.add_node(src, DatasetNode(name=src, storage_type="table"), "Dataset")
             if tgt not in self.lineage_kg.graph:
                 self.lineage_kg.add_node(tgt, DatasetNode(name=tgt, storage_type="table"), "Dataset")
-            self.lineage_kg.add_edge(src, tgt, "PRODUCES", {"source_file": rel_path, "transformation_type": "yaml", "line_range": [1, 1]})
+            # Represent relationship as a transformation node to retain metadata
+            transformation_id = f"{rel_path}::yaml::{src}>>{tgt}"
+            transformation = TransformationNode(
+                source_datasets=[src],
+                target_datasets=[tgt],
+                transformation_type="yaml",
+                source_file=rel_path,
+                line_range=[1, 1],
+            )
+            if transformation_id not in self.lineage_kg.graph:
+                self.lineage_kg.add_node(transformation_id, transformation, "Transformation")
+            self.lineage_kg.add_edge(src, transformation_id, "CONSUMES", {"source_file": rel_path, "transformation_type": "yaml", "line_range": [1, 1]})
+            self.lineage_kg.add_edge(transformation_id, tgt, "PRODUCES", {"source_file": rel_path, "transformation_type": "yaml", "line_range": [1, 1]})
 
     def _analyze_python_file(self, file_path: str, rel_path: str):
+        try:
+            with open(file_path, "r") as f:
+                line_count = max(1, len(f.read().splitlines()))
+        except Exception:
+            line_count = 1
+
+        airflow_edges = self.dag_parser.parse_airflow_dag(file_path)
+        if airflow_edges:
+            for edge in airflow_edges:
+                src = edge.get("source")
+                tgt = edge.get("target")
+                lr = edge.get("line_range", [1, 1])
+                if not src or not tgt:
+                    continue
+                if src not in self.lineage_kg.graph:
+                    self.lineage_kg.add_node(src, DatasetNode(name=src, storage_type="task"), "Dataset")
+                if tgt not in self.lineage_kg.graph:
+                    self.lineage_kg.add_node(tgt, DatasetNode(name=tgt, storage_type="task"), "Dataset")
+                transformation_id = f"{rel_path}::airflow::{src}>>{tgt}"
+                transformation = TransformationNode(
+                    source_datasets=[src],
+                    target_datasets=[tgt],
+                    transformation_type="airflow",
+                    source_file=rel_path,
+                    line_range=lr,
+                )
+                if transformation_id not in self.lineage_kg.graph:
+                    self.lineage_kg.add_node(transformation_id, transformation, "Transformation")
+                self.lineage_kg.add_edge(src, transformation_id, "CONSUMES", {"source_file": rel_path, "transformation_type": "airflow", "line_range": lr})
+                self.lineage_kg.add_edge(transformation_id, tgt, "PRODUCES", {"source_file": rel_path, "transformation_type": "airflow", "line_range": lr})
+
         flow = self.python_flow.analyze_file(file_path)
-        if not flow:
+        if not flow or (not flow.get("reads") and not flow.get("writes") and not flow.get("unresolved")):
             return
 
         transformation_id = f"{rel_path}::python"
@@ -100,7 +147,8 @@ class Hydrologist:
             target_datasets=[name for name, _ in flow.get("writes", [])],
             transformation_type="python",
             source_file=rel_path,
-            line_range=[1, 1],
+            line_range=[1, line_count],
+            unresolved_references=flow.get("unresolved"),
         )
         self.lineage_kg.add_node(transformation_id, transformation, "Transformation")
 

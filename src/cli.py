@@ -1,9 +1,11 @@
 import argparse
 import os
 import subprocess
+from dotenv import load_dotenv
 from src.orchestrator import Orchestrator
 
 def main():
+    load_dotenv()
     parser = argparse.ArgumentParser(description="The Brownfield Cartographer CLI")
     subparsers = parser.add_subparsers(dest="command")
 
@@ -14,6 +16,7 @@ def main():
 
     # Query command
     query_parser = subparsers.add_parser("query", help="Query the codebase knowledge graph")
+    query_parser.add_argument("--repo_path", help="Path to local repository (optional)")
 
     args = parser.parse_args()
 
@@ -25,10 +28,18 @@ def main():
         orchestrator.run_analysis(incremental=args.incremental)
 
     elif args.command == "query":
-        # For the demo, we'll implement a simple interactive loop or static query
-        print("Query mode (Interactive loop not fully implemented in this demo)")
-        # Example query result
-        print("Try: 'What what breaks if I change customers.sql?'")
+        repo_path = args.repo_path or os.getcwd()
+        orchestrator = Orchestrator(repo_path)
+        navigator = orchestrator.get_navigator()
+        print("Query mode. Type 'exit' to quit.")
+        while True:
+            try:
+                q = input("> ").strip()
+            except EOFError:
+                break
+            if not q or q.lower() in {"exit", "quit"}:
+                break
+            print(navigator.query(q))
     else:
         parser.print_help()
 

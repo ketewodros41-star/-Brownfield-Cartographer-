@@ -84,3 +84,30 @@ class KnowledgeGraph:
         kg = cls()
         kg.graph = nx.node_link_graph(data)
         return kg
+
+    def merge(self, other: "KnowledgeGraph"):
+        for node_id, data in other.graph.nodes(data=True):
+            if node_id in self.graph:
+                self.graph.nodes[node_id].update(data)
+            else:
+                self.graph.add_node(node_id, **data)
+        for u, v, data in other.graph.edges(data=True):
+            self.graph.add_edge(u, v, **data)
+
+    def remove_nodes_by_source_files(self, source_files: List[str]):
+        to_remove = []
+        for node_id, data in self.graph.nodes(data=True):
+            if data.get("source_file") in source_files:
+                to_remove.append(node_id)
+        for node_id in to_remove:
+            if node_id in self.graph:
+                self.graph.remove_node(node_id)
+
+    def remove_edges_by_source_files(self, source_files: List[str]):
+        to_remove = []
+        for u, v, data in self.graph.edges(data=True):
+            if data.get("source_file") in source_files:
+                to_remove.append((u, v))
+        for u, v in to_remove:
+            if self.graph.has_edge(u, v):
+                self.graph.remove_edge(u, v)

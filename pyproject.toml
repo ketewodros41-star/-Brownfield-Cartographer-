@@ -17,7 +17,8 @@ dependencies = [
     "gitpython",
     "scikit-learn",
     "numpy",
-    "openai"
+    "openai",
+    "python-dotenv"
 ]
 
 [project.scripts]

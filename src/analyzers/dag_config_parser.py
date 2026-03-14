@@ -41,6 +41,54 @@ class DAGConfigParser:
         Naive Airflow DAG parser (can be improved with tree-sitter or dynamic analysis).
         For now, looks for operator definitions and bitshift operators.
         """
-        # This is a placeholder for a more complex parser.
-        # In a real system, we'd use tree-sitter to find operator dependencies.
-        return []
+        try:
+            with open(file_path, "r") as f:
+                content = f.read()
+        except Exception:
+            return []
+
+        results: List[Dict[str, Any]] = []
+
+        # Simple pattern for task dependencies using >> or <<
+        # Handles: task1 >> task2, task1 >> [task2, task3], [task1, task2] >> task3
+        import re
+        lines = content.splitlines()
+        pattern = re.compile(r"(.+?)\s*(>>|<<)\s*(.+)")
+
+        def _extract_task_names(expr: str) -> List[str]:
+            # Strip brackets and split by comma
+            expr = expr.strip()
+            if expr.startswith("(") and expr.endswith(")"):
+                expr = expr[1:-1]
+            expr = expr.strip()
+            if expr.startswith("[") and expr.endswith("]"):
+                expr = expr[1:-1]
+            parts = [p.strip() for p in expr.split(",") if p.strip()]
+            # Filter to identifier-like tokens
+            names = []
+            for p in parts:
+                m = re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", p)
+                if m:
+                    names.append(p)
+            return names
+
+        for idx, line in enumerate(lines, start=1):
+            match = pattern.search(line)
+            if not match:
+                continue
+            left_expr, op, right_expr = match.groups()
+            left_tasks = _extract_task_names(left_expr)
+            right_tasks = _extract_task_names(right_expr)
+            if not left_tasks or not right_tasks:
+                continue
+            if op == ">>":
+                for l in left_tasks:
+                    for r in right_tasks:
+                        results.append({"source": l, "target": r, "line_range": [idx, idx]})
+            else:
+                # left << right means right -> left
+                for l in left_tasks:
+                    for r in right_tasks:
+                        results.append({"source": r, "target": l, "line_range": [idx, idx]})
+
+        return results

@@ -12,13 +12,22 @@ class Surveyor:
         self.analyzer = TreeSitterAnalyzer(repo_root=repo_path)
         self.kg = KnowledgeGraph()
 
-    def analyze(self) -> KnowledgeGraph:
+    def analyze(self, file_filter: List[str] = None) -> KnowledgeGraph:
+        file_filter_set = set(file_filter or [])
         for root, _, files in os.walk(self.repo_path):
             for file in files:
                 if file.endswith((".py", ".sql", ".yaml", ".yml")):
                     file_path = os.path.join(root, file)
                     rel_path = os.path.relpath(file_path, self.repo_path)
+                    if file_filter_set and rel_path not in file_filter_set:
+                        continue
                     try:
+                        line_count = 1
+                        try:
+                            with open(file_path, "r") as f:
+                                line_count = max(1, len(f.read().splitlines()))
+                        except Exception:
+                            line_count = 1
                         analysis = self.analyzer.analyze_file(file_path)
                         if not analysis:
                             continue
@@ -27,6 +36,7 @@ class Surveyor:
                             path=rel_path,
                             language=os.path.splitext(file)[1][1:],
                             change_velocity_30d=self._get_git_velocity(file_path),
+                            line_range=[1, line_count],
                         )
 
                         self.kg.add_node(rel_path, node, "Module")
